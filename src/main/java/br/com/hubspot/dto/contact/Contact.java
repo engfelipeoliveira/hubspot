@@ -2,6 +2,7 @@ package br.com.hubspot.dto.contact;
 
 import static java.lang.Long.parseLong;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.replace;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.io.Serializable;
@@ -53,16 +54,16 @@ public class Contact implements Serializable {
 					.produto(properties.getProduto() != null ? properties.getProduto().getValue() : "")
 					.hubspotOwnerId(properties.getHubspotOwnerId() != null && isNotBlank(properties.getHubspotOwnerId().getValue()) ? parseLong(properties.getHubspotOwnerId().getValue()) : null)
 					.notesLastUpdated(properties.getNotesLastUpdated() != null && isNotBlank(properties.getNotesLastUpdated().getValue()) ? new Date(parseLong(properties.getNotesLastUpdated().getValue())) : null)
-					.valorRealEmprestimo(properties.getValorRealEmprestimo() != null && isNotBlank(properties.getValorRealEmprestimo().getValue()) ? new BigDecimal(properties.getValorRealEmprestimo().getValue()) : null)
-					.valorDaGarantia2(properties.getValorDaGarantia2() != null && isNotBlank(properties.getValorDaGarantia2().getValue()) ? new BigDecimal(properties.getValorDaGarantia2().getValue()) : null)
+					.valorRealEmprestimo(properties.getValorRealEmprestimo() != null && isNotBlank(properties.getValorRealEmprestimo().getValue()) ? new BigDecimal(replace(properties.getValorRealEmprestimo().getValue(), ",", ".")) : null)
+					.valorDaGarantia2(properties.getValorDaGarantia2() != null && isNotBlank(properties.getValorDaGarantia2().getValue()) ? new BigDecimal(replace(properties.getValorDaGarantia2().getValue(), ",", ".")) : null)
 					.numNotes(properties.getNumNotes() != null ? properties.getNumNotes().getValue() : "")
 					.lifecycleStage(properties.getLifecycleStage() != null ? properties.getLifecycleStage().getValue() : "")
 					.tagOrigem(properties.getTagOrigem() != null ? properties.getTagOrigem().getValue() : "")
 					.estadoImovelCgi(properties.getEstadoImovelCgi() != null ? properties.getEstadoImovelCgi().getValue() : "")
 					.cidadeImovelCgi(properties.getCidadeImovelCgi() != null ? properties.getCidadeImovelCgi().getValue() : "")
 					.situacaoProfissional(properties.getSituacaoProfissional() != null ? properties.getSituacaoProfissional().getValue() : "")
-					.valorEmprestimoCgv(properties.getValorEmprestimoCgv() != null && isNotBlank(properties.getValorEmprestimoCgv().getValue()) ? new BigDecimal(properties.getValorEmprestimoCgv().getValue()) : null)
-					.valorVeiculoCgv(properties.getValorVeiculoCgv() != null && isNotBlank(properties.getValorVeiculoCgv().getValue()) ? new BigDecimal(properties.getValorVeiculoCgv().getValue()) : null)
+					.valorEmprestimoCgv(properties.getValorEmprestimoCgv() != null && isNotBlank(properties.getValorEmprestimoCgv().getValue()) ? new BigDecimal(replace(properties.getValorEmprestimoCgv().getValue(), ",", ".")) : null)
+					.valorVeiculoCgv(properties.getValorVeiculoCgv() != null && isNotBlank(properties.getValorVeiculoCgv().getValue()) ? new BigDecimal(replace(properties.getValorVeiculoCgv().getValue(), ",", ".")) : null)
 					.objetivoDoEmprestimoCgv(properties.getObjetivoDoEmprestimoCgv() != null ? properties.getObjetivoDoEmprestimoCgv().getValue() : "")
 					.city(properties.getCity() != null ? properties.getCity().getValue() : "")
 					.state(properties.getState() != null ? properties.getState().getValue() : "")

@@ -1,6 +1,7 @@
 package br.com.hubspot.service;
 
 import static java.lang.String.format;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class ContactServiceImpl implements ContactService {
 		super();
 		this.contactRepository = contactRepository;
 	}
-
+	
 	@Override
 	public List<AllContactsOutput> getAll() throws ClientProtocolException, IOException {
 		boolean hasMore = true;
@@ -59,7 +60,7 @@ public class ContactServiceImpl implements ContactService {
 				HttpGet httpGet = new HttpGet(format(HUBSPOT_URL_GET_ALL_CONTACTS, HUBSPOT_API_KEY, vidOffset));
 				CloseableHttpResponse response = httpClient.execute(httpGet);
 
-				if (response.getStatusLine().getStatusCode() == 200) {
+				if (response.getStatusLine().getStatusCode() == SC_OK) {
 					AllContactsOutput result = new Gson().fromJson(EntityUtils.toString(response.getEntity()), AllContactsOutput.class);
 					allContactsOutput.add(result);
 					vidOffset = result.getVidOffset();
@@ -85,7 +86,7 @@ public class ContactServiceImpl implements ContactService {
 			HttpGet httpGet = new HttpGet(format(HUBSPOT_URL_GET_CONTACT_BY_ID, id, HUBSPOT_API_KEY));
 			CloseableHttpResponse response = httpClient.execute(httpGet);
 
-			if (response.getStatusLine().getStatusCode() == 200) {
+			if (response.getStatusLine().getStatusCode() == SC_OK) {
 				result = new Gson().fromJson(EntityUtils.toString(response.getEntity()), Contact.class);
 			} else {
 				LOG.error("Error getting contact by id " + id);
