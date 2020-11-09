@@ -34,13 +34,17 @@ public class MainServiceImpl implements MainService {
 			allContact.getContacts().stream().forEach(contacts -> {
 				try {
 					Contact contact = contactService.getById(contacts.getVid());
-					ContactEntity contactEntity = contact.toEntity();
-					contactService.save(contactEntity);
-					LOG.info("Saving " + contactEntity.toString());
+					if(contact != null) {
+						ContactEntity contactEntity = contact.toEntity();
+						if(contactEntity != null) {
+							contactService.save(contactEntity);
+							LOG.info(contactEntity.toString());							
+						}
+					}
 				} catch (ClientProtocolException e) {
-					e.printStackTrace();
+					LOG.error("Error on save " + e);
 				} catch (IOException e) {
-					e.printStackTrace();
+					LOG.error("Error on save " + e);
 				}
 			});
 		});
