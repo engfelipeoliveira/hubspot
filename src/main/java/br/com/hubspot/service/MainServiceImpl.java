@@ -3,6 +3,7 @@ package br.com.hubspot.service;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -30,6 +31,7 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public void execute() throws ClientProtocolException, IOException {
 		List<AllContactsOutput> allContactsOutput = contactService.getAll();
+		List<Long> idsSaveError = new ArrayList<Long>();
 		allContactsOutput.stream().forEach(allContact -> {
 			allContact.getContacts().stream().forEach(contacts -> {
 				try {
@@ -40,7 +42,9 @@ public class MainServiceImpl implements MainService {
 							contactService.save(contactEntity);
 							LOG.info(contactEntity.toString());							
 						}
-					}
+					}else {
+						idsSaveError.add(contacts.getVid());	
+					}	
 				} catch (ClientProtocolException e) {
 					LOG.error("Error on save " + allContact);
 					LOG.error("Details " + e);
@@ -49,6 +53,26 @@ public class MainServiceImpl implements MainService {
 					LOG.error("Details " + e);
 				}
 			});
+		});
+		
+		LOG.info("Re-save contacts in error");
+		idsSaveError.stream().forEach(id -> {
+			try {
+				Contact contact = contactService.getById(id);
+				if(contact != null) {
+					ContactEntity contactEntity = contact.toEntity();
+					if(contactEntity != null) {
+						contactService.save(contactEntity);
+						LOG.info(contactEntity.toString());							
+					}
+				}
+			} catch (ClientProtocolException e) {
+				LOG.error("Error on re-save " + id);
+				LOG.error("Details " + e);
+			} catch (IOException e) {
+				LOG.error("Error on re-save " + id);
+				LOG.error("Details " + e);
+			}
 		});
 	}
 	
