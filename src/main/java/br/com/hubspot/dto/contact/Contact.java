@@ -37,7 +37,9 @@ public class Contact implements Serializable {
 	private Properties properties;
 	
 	public ContactEntity toEntity() {
-		return ContactEntity.builder()
+		ContactEntity contactEntity = null;
+		try {
+			contactEntity = ContactEntity.builder()
 					.id(vid)
 					.createDate(properties.getCreatedate() != null && isNotBlank(properties.getCreatedate().getValue()) ? new Date(parseLong(properties.getCreatedate().getValue())) : null)
 					.firstName(properties.getFirstName() != null ? properties.getFirstName().getValue() : "")
@@ -60,6 +62,9 @@ public class Contact implements Serializable {
 					.city(properties.getCity() != null ? properties.getCity().getValue() : "")
 					.state(properties.getState() != null ? properties.getState().getValue() : "")
 					.build();
+		} catch (Exception e) {
+		}
+		return contactEntity;
 	}
 	
 }
