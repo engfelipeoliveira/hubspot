@@ -42,9 +42,11 @@ public class MainServiceImpl implements MainService {
 						}
 					}
 				} catch (ClientProtocolException e) {
-					LOG.error("Error on save " + e);
+					LOG.error("Error on save " + allContact);
+					LOG.error("Details " + e);
 				} catch (IOException e) {
-					LOG.error("Error on save " + e);
+					LOG.error("Error on save " + allContact);
+					LOG.error("Details " + e);
 				}
 			});
 		});

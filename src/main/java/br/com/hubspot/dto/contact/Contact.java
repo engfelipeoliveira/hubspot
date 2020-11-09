@@ -2,14 +2,18 @@ package br.com.hubspot.dto.contact;
 
 import static java.lang.Long.parseLong;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.slf4j.Logger;
+
 import com.google.gson.annotations.SerializedName;
 
 import br.com.hubspot.entity.ContactEntity;
+import br.com.hubspot.service.MainServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +33,8 @@ public class Contact implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger LOG = getLogger(Contact.class);
 	
 	@SerializedName("vid")
 	private Long vid;
@@ -63,6 +69,8 @@ public class Contact implements Serializable {
 					.state(properties.getState() != null ? properties.getState().getValue() : "")
 					.build();
 		} catch (Exception e) {
+			LOG.error("Error on parsing " + properties);
+			LOG.error("Details " + e);
 		}
 		return contactEntity;
 	}
