@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import com.google.gson.annotations.SerializedName;
 
 import br.com.hubspot.entity.ContactEntity;
-import br.com.hubspot.service.MainServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
