@@ -66,6 +66,7 @@ public class ContactServiceImpl implements ContactService {
 					hasMore = result.isHasMore();
 				} else {
 					hasMore = false;
+					LOG.error("Error getting all contacts");
 					LOG.error(response.toString());
 				}
 			}
@@ -87,6 +88,7 @@ public class ContactServiceImpl implements ContactService {
 			if (response.getStatusLine().getStatusCode() == 200) {
 				result = new Gson().fromJson(EntityUtils.toString(response.getEntity()), Contact.class);
 			} else {
+				LOG.error("Error getting contact by id " + id);
 				LOG.error(response.toString());
 			}
 		} finally {
